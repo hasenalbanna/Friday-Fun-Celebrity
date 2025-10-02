@@ -1,6 +1,5 @@
 // Serverless function URL to update votes (You will get this URL after deployment)
-const API_URL = 'https://friday-fun-celebrity.vercel.app/api/vote'; 
-
+const API_URL = 'https://friday-fun-celebrity.vercel.app/api/vote';
 // Local photo data (used for displaying images and local vote counts)
 const photos = [
     { id: 1, file: './img/photo-1.png', votes: 0 },
