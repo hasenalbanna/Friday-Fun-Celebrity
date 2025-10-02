@@ -11,8 +11,8 @@ export default async (req, res) => {
     }
 
     const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
-    const GITHUB_OWNER = 'YOUR_GITHUB_USERNAME'; // Replace with your GitHub username
-    const GITHUB_REPO = 'YOUR_REPO_NAME'; // Replace with your new repo name
+    const GITHUB_OWNER = 'hasenalbanna'; // Replace with your GitHub username
+    const GITHUB_REPO = 'Friday-Fun-Celebrity'; // Replace with your new repo name
     const FILE_PATH = 'votes.json';
 
     const octokit = new Octokit({ auth: GITHUB_TOKEN });
