@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #f0f2f5;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    text-align: center;
+}
+
+.container {
+    background: #fff;
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    max-width: 900px;
+    width: 100%;
+}
+
+h1 {
+    color: #4CAF50;
+    margin-bottom: 2rem;
+}
+
+.photos-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.photo-card {
+    position: relative;
+    cursor: pointer;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.photo-card:hover {
+    transform: translateY(-5px);
+}
+
+.photo {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    display: block;
+}
+
+.vote-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 128, 0, 0.7);
+    color: white;
+    padding: 0.5rem 0;
+    font-weight: 600;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.photo-card:hover .vote-overlay {
+    opacity: 1;
+}
+
+.vs-text {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #888;
+}
+
+.game-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+#round-number {
+    font-weight: bold;
+    color: #4CAF50;
+}
+
+button {
+    background: #FF5722;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+button:hover {
+    background: #E64A19;
+}
+
+#leaderboard-container {
+    margin-top: 2rem;
+    text-align: left;
+}
+
+#leaderboard-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+#leaderboard-list li {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem;
+    border-bottom: 1px solid #eee;
+    transition: background-color 0.2s;
+}
+
+#leaderboard-list li:hover {
+    background-color: #f9f9f9;
+}
+
+.leaderboard-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-right: 1rem;
+}

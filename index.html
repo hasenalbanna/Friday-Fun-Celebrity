@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Friday Fun Celebrity</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Vote for the Funniest Celebrity!</h1>
+        
+        <div class="photos-container">
+            <div class="photo-card" id="photo-1-container">
+                <img id="photo-1-img" src="" alt="Celebrity 1" class="photo">
+                <div class="vote-overlay">Click to Vote!</div>
+            </div>
+
+            <div class="vs-text">VS</div>
+            
+            <div class="photo-card" id="photo-2-container">
+                <img id="photo-2-img" src="" alt="Celebrity 2" class="photo">
+                <div class="vote-overlay">Click to Vote!</div>
+            </div>
+        </div>
+
+        <div class="game-controls">
+            <p>Round: <span id="round-number">0</span></p>
+            <button id="show-leaderboard-btn">Show Leaderboard</button>
+        </div>
+
+        <div id="leaderboard-container" style="display: none;">
+            <h2>Leaderboard</h2>
+            <ul id="leaderboard-list"></ul>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
