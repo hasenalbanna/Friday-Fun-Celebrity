@@ -19,6 +19,9 @@
                     colors: {
                         'primary-green': '#4CAF50',
                         'accent-orange': '#FF5722',
+                        'gold': '#FFD700', // Custom Gold for Rank 1
+                        'silver': '#C0C0C0', // Custom Silver for Rank 2
+                        'bronze': '#CD7F32', // Custom Bronze for Rank 3
                     }
                 }
             }
@@ -47,13 +50,24 @@
             display: block;
         }
 
+        /* Responsive height for smaller screens */
+        @media (max-width: 640px) {
+            .photo {
+                height: 200px;
+            }
+            /* Adjust the VS text size for mobile */
+            .vs-text {
+                font-size: 1.5rem; /* Smaller VS text */
+            }
+        }
+
         /* Vote Overlay styles for interaction */
         .vote-overlay {
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
-            background: rgba(76, 175, 80, 0.85); /* Primary Green with opacity */
+            background: rgba(76, 175, 80, 0.85);
             color: white;
             padding: 0.75rem 0;
             font-weight: 600;
@@ -70,16 +84,13 @@
         #loading-spinner, #notification-area {
             display: none;
         }
-
-        @media (max-width: 640px) {
-            .photo {
-                height: 200px;
-            }
-        }
     </style>
 </head>
-<body class="min-h-screen flex flex-col items-center justify-center p-4">
-    
+<body class="min-h-screen flex flex-col items-center justify-center p-4 font-sans">
+       <p class="text-gray-500 text-sm">
+            This application is created by 
+            <span class="text-primary-green font-bold text-base">MRA HASEN AL BANNA</span>
+        </p>
     <!-- Loading Spinner -->
     <div id="loading-spinner" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50">
         <div class="animate-spin rounded-full h-20 w-20 border-t-4 border-b-4 border-primary-green"></div>
@@ -92,7 +103,7 @@
 
     <div class="container bg-white p-6 sm:p-8 md:p-10 rounded-2xl shadow-xl max-w-4xl w-full my-8">
 
-        <!-- Header - Updated and Stylized -->
+        <!-- Header -->
         <header class="text-center mb-10">
             <h1 class="amazing-font text-4xl sm:text-5xl lg:text-6xl uppercase leading-tight">
                 VOTE YOUR FAVORITE CELEBRITY
@@ -100,10 +111,10 @@
         </header>
         
         <!-- Celebrity Matchup Area -->
-        <div class="photos-container flex flex-col sm:flex-row justify-center items-center gap-6 sm:gap-12 mb-8">
+        <div class="photos-container flex justify-center items-center gap-2 sm:gap-6 mb-8">
             
             <!-- Photo Card 1 -->
-            <div class="photo-card relative w-full sm:w-5/12 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl 
+            <div class="photo-card relative w-5/12 sm:w-5/12 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl 
                         transition duration-300 ease-in-out transform hover:scale-[1.03]"
                  id="photo-1-container">
                 <img id="photo-1-img" src="https://placehold.co/300x300/e0f2f1/059669?text=Celebrity+A" alt="Celebrity 1" class="photo w-full object-cover">
@@ -113,12 +124,12 @@
             </div>
 
             <!-- VS Text -->
-            <div class="vs-text text-4xl font-extrabold text-gray-500 my-4 sm:my-0">
+            <div class="vs-text text-4xl font-extrabold text-gray-500 mx-2 sm:mx-0">
                 VS
             </div>
             
             <!-- Photo Card 2 -->
-            <div class="photo-card relative w-full sm:w-5/12 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl 
+            <div class="photo-card relative w-5/12 sm:w-5/12 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl 
                         transition duration-300 ease-in-out transform hover:scale-[1.03]"
                  id="photo-2-container">
                 <img id="photo-2-img" src="https://placehold.co/300x300/e0f2f1/059669?text=Celebrity+B" alt="Celebrity 2" class="photo w-full object-cover">
@@ -138,18 +149,11 @@
             </button>
         </div>
 
-        <!-- Leaderboard (Hidden by default) -->
-        <div id="leaderboard-container" class="mt-8 p-6 bg-gray-50 rounded-xl border border-gray-200" style="display: none;">
-            <h2 class="text-2xl font-semibold mb-4 text-primary-green">Current Leaderboard</h2>
-            <ul id="leaderboard-list" class="space-y-3">
-                <!-- Leaderboard items will be populated here by script.js -->
-                <li class="flex items-center justify-between p-3 rounded-lg bg-gray-100 border-l-4 border-primary-green">
-                    <div class="flex items-center">
-                        <img src="https://placehold.co/50x50/f0fdf4/059669?text=1" class="leaderboard-image w-10 h-10 rounded-full object-cover mr-4 border-2 border-primary-green">
-                        <span class="font-medium text-gray-800">Mock Winner</span>
-                    </div>
-                    <span class="text-primary-green font-bold">5 Votes</span>
-                </li>
+        <!-- Leaderboard -->
+        <div id="leaderboard-container" class="mt-8 p-6 bg-gray-50 rounded-xl border-4 border-primary-green/30 shadow-inner" style="display: none;">
+            <h2 class="text-3xl font-extrabold mb-6 text-primary-green text-center border-b pb-3 border-gray-200">🏆 Leaderboard 🏆</h2>
+            <ul id="leaderboard-list" class="space-y-4">
+                <!-- List items populated by script.js -->
             </ul>
         </div>
         
@@ -157,13 +161,181 @@
 
     <!-- Footer - Attribution -->
     <footer class="text-center mt-8 py-4">
-        <p class="text-gray-500 text-sm">
-            This application is created by 
-            <span class="text-primary-green font-bold text-base">MRA HASEN AL BANNA</span>
-        </p>
+     
     </footer>
 
-    <!-- Link to external script file -->
+    <!-- Link to external script file (logic included below for single-file mandate) -->
     <script src="script.js"></script>
+
+    <script>
+        // --- GAME LOGIC SCRIPT (Incorporating Leaderboard Fixes) ---
+        
+        // Mock data structure to map IDs to display names (required for the UI)
+        const MOCK_CELEBRITIES = {
+            'placeholder_a': 'Celebrity A',
+            'placeholder_b': 'Celebrity B',
+            'celebrity_c': 'Celebrity C',
+            'celebrity_d': 'Celebrity D',
+            'celebrity_e': 'Celebrity E',
+            'celebrity_f': 'Celebrity F'
+        };
+
+        const VOTE_API_ENDPOINT = '/api/vote';
+        const photo1Container = document.getElementById('photo-1-container');
+        const photo2Container = document.getElementById('photo-2-container');
+        const leaderboardContainer = document.getElementById('leaderboard-container');
+        const showLeaderboardBtn = document.getElementById('show-leaderboard-btn');
+        let isLeaderboardVisible = false;
+
+        // --- Utility Functions ---
+
+        function showLoading(isVisible) {
+            document.getElementById('loading-spinner').style.display = isVisible ? 'flex' : 'none';
+        }
+
+        function showNotification(message, type = 'success') {
+            const area = document.getElementById('notification-area');
+            const msg = document.getElementById('notification-message');
+            
+            if (type === 'success') {
+                msg.className = 'mx-auto max-w-lg p-3 text-center rounded-lg shadow-2xl font-semibold bg-primary-green text-white';
+            } else if (type === 'error') {
+                msg.className = 'mx-auto max-w-lg p-3 text-center rounded-lg shadow-2xl font-semibold bg-red-600 text-white';
+            }
+
+            msg.textContent = message;
+            area.style.display = 'block'; 
+            
+            setTimeout(() => {
+                area.style.display = 'none';
+            }, 4000);
+        }
+
+        // --- Core Voting Logic ---
+        async function handleVote(event) {
+            let photoId = null;
+            let targetElement = event.target.closest('.photo-card');
+            
+            if (targetElement) {
+                photoId = targetElement.querySelector('.vote-overlay')?.getAttribute('data-photo-id');
+            }
+            
+            const celebrityName = MOCK_CELEBRITIES[photoId];
+
+            if (!photoId) return;
+
+            showLoading(true);
+
+            try {
+                const response = await fetch(VOTE_API_ENDPOINT, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ photo: photoId })
+                });
+
+                showLoading(false);
+
+                if (response.ok) {
+                    document.getElementById('round-number').textContent = parseInt(document.getElementById('round-number').textContent) + 1;
+                    showNotification(`You voted for ${celebrityName}! Moving to next round.`, 'success');
+                } else {
+                    const error = await response.json();
+                    showNotification(`Error: ${error.message || 'Failed to process vote.'}`, 'error');
+                }
+
+            } catch (error) {
+                showLoading(false);
+                console.error('Voting request failed:', error);
+                showNotification('Network error. Could not connect to the server.', 'error');
+            }
+        }
+
+        // --- Leaderboard Toggle Logic ---
+        function toggleLeaderboard() {
+            isLeaderboardVisible = !isLeaderboardVisible;
+            leaderboardContainer.style.display = isLeaderboardVisible ? 'block' : 'none';
+            showLeaderboardBtn.textContent = isLeaderboardVisible ? 'Hide Leaderboard' : 'Show Leaderboard';
+
+            // Mock Leaderboard Update with more data points for better visual test
+            if (isLeaderboardVisible) {
+                updateLeaderboardUI([
+                    { name: 'Celebrity A (The Champion)', votes: 22, id: 'placeholder_a' },
+                    { name: 'Celebrity B (Runner Up)', votes: 18, id: 'placeholder_b' },
+                    { name: 'Celebrity C (Bronze Star)', votes: 16, id: 'celebrity_c' },
+                    { name: 'Celebrity D', votes: 10, id: 'celebrity_d' },
+                    { name: 'Celebrity E', votes: 7, id: 'celebrity_e' },
+                    { name: 'Celebrity F', votes: 4, id: 'celebrity_f' },
+                ]);
+            }
+        }
+
+        // --- Leaderboard Rendering FIX (New Attractive Design) ---
+        function updateLeaderboardUI(results) {
+            const list = document.getElementById('leaderboard-list');
+            list.innerHTML = ''; // Clear existing list
+            
+            results.sort((a, b) => b.votes - a.votes);
+
+            results.forEach((item, index) => {
+                const rank = index + 1;
+                const rankText = rank.toString();
+                const placeholderUrl = `https://placehold.co/50x50/f0fdf4/059669?text=${rankText}`;
+                
+                let rankClasses = '';
+                let bgColor = 'bg-white';
+                let rankColorClass = 'text-gray-500';
+                let rankDisplay = `${rank}.`;
+
+                if (rank === 1) {
+                    bgColor = 'bg-yellow-50'; // Light Gold background
+                    rankClasses = 'shadow-2xl ring-4 ring-gold/70 transform scale-[1.02] transition-all duration-300';
+                    rankColorClass = 'text-gold';
+                    rankDisplay = '🥇';
+                } else if (rank === 2) {
+                    bgColor = 'bg-gray-100'; // Light Silver background
+                    rankClasses = 'shadow-lg ring-2 ring-silver/70';
+                    rankColorClass = 'text-silver';
+                    rankDisplay = '🥈';
+                } else if (rank === 3) {
+                    bgColor = 'bg-amber-50'; // Light Bronze background
+                    rankClasses = 'shadow-md ring-1 ring-bronze/70';
+                    rankColorClass = 'text-bronze';
+                    rankDisplay = '🥉';
+                } else {
+                    bgColor = 'bg-white';
+                    rankColorClass = 'text-gray-500';
+                }
+
+                const listItem = document.createElement('li');
+
+                listItem.className = `flex items-center justify-between p-4 rounded-xl border border-gray-200 hover:bg-gray-200 transition ${bgColor} ${rankClasses}`;
+                
+                listItem.innerHTML = `
+                    <div class="flex items-center space-x-4">
+                        <span class="text-3xl font-extrabold w-8 text-center ${rankColorClass}">
+                            ${rankDisplay}
+                        </span>
+                        <!-- Enforced w-12 h-12 size for visual consistency -->
+                        <img src="${placeholderUrl}" alt="${item.name}" class="w-12 h-12 rounded-full object-cover border-4 border-gray-300">
+                        <span class="font-semibold text-lg text-gray-800">${item.name}</span>
+                    </div>
+                    <span class="text-primary-green font-extrabold text-xl">${item.votes} Votes</span>
+                `;
+                list.appendChild(listItem);
+            });
+        }
+
+        // --- Initialization ---
+        function attachEventListeners() {
+            photo1Container.addEventListener('click', handleVote);
+            photo2Container.addEventListener('click', handleVote);
+            showLeaderboardBtn.addEventListener('click', toggleLeaderboard);
+        }
+
+        window.onload = attachEventListeners;
+
+    </script>
 </body>
 </html>
