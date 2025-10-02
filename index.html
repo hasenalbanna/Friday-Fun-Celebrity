@@ -3,38 +3,167 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Friday Fun Celebrity</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="container">
-        <h1>Vote for the Funniest Celebrity!</h1>
+    <title>VOTE YOUR FAVORITE CELEBRITY</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary-green': '#4CAF50',
+                        'accent-orange': '#FF5722',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Custom styles based on your previous input */
+        body {
+            background: #f0f2f5;
+        }
+
+        /* Amazing custom font style for the heading */
+        .amazing-font {
+            text-shadow: 2px 2px 4px rgba(76, 175, 80, 0.5); /* Shadow for pop */
+            letter-spacing: 0.1em;
+            color: #4CAF50;
+            margin-bottom: 2rem;
+            font-weight: 800; /* Extra bold */
+        }
         
-        <div class="photos-container">
-            <div class="photo-card" id="photo-1-container">
-                <img id="photo-1-img" src="" alt="Celebrity 1" class="photo">
-                <div class="vote-overlay">Click to Vote!</div>
-            </div>
+        .photo {
+            width: 100%;
+            height: 300px; 
+            object-fit: cover;
+            display: block;
+        }
 
-            <div class="vs-text">VS</div>
-            
-            <div class="photo-card" id="photo-2-container">
-                <img id="photo-2-img" src="" alt="Celebrity 2" class="photo">
-                <div class="vote-overlay">Click to Vote!</div>
-            </div>
-        </div>
+        /* Vote Overlay styles for interaction */
+        .vote-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(76, 175, 80, 0.85); /* Primary Green with opacity */
+            color: white;
+            padding: 0.75rem 0;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            cursor: pointer;
+        }
 
-        <div class="game-controls">
-            <p>Round: <span id="round-number">0</span></p>
-            <button id="show-leaderboard-btn">Show Leaderboard</button>
-        </div>
+        .photo-card:hover .vote-overlay {
+            opacity: 1;
+        }
+        
+        /* Hide loading/notification elements by default */
+        #loading-spinner, #notification-area {
+            display: none;
+        }
 
-        <div id="leaderboard-container" style="display: none;">
-            <h2>Leaderboard</h2>
-            <ul id="leaderboard-list"></ul>
-        </div>
+        @media (max-width: 640px) {
+            .photo {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-4">
+    
+    <!-- Loading Spinner -->
+    <div id="loading-spinner" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50">
+        <div class="animate-spin rounded-full h-20 w-20 border-t-4 border-b-4 border-primary-green"></div>
     </div>
 
+    <!-- Notification Bar -->
+    <div id="notification-area" class="fixed top-0 left-0 right-0 p-4 z-40">
+        <div id="notification-message" class="mx-auto max-w-lg p-3 text-center rounded-lg shadow-2xl font-semibold"></div>
+    </div>
+
+    <div class="container bg-white p-6 sm:p-8 md:p-10 rounded-2xl shadow-xl max-w-4xl w-full my-8">
+
+        <!-- Header - Updated and Stylized -->
+        <header class="text-center mb-10">
+            <h1 class="amazing-font text-4xl sm:text-5xl lg:text-6xl uppercase leading-tight">
+                VOTE YOUR FAVORITE CELEBRITY
+            </h1>
+        </header>
+        
+        <!-- Celebrity Matchup Area -->
+        <div class="photos-container flex flex-col sm:flex-row justify-center items-center gap-6 sm:gap-12 mb-8">
+            
+            <!-- Photo Card 1 -->
+            <div class="photo-card relative w-full sm:w-5/12 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl 
+                        transition duration-300 ease-in-out transform hover:scale-[1.03]"
+                 id="photo-1-container">
+                <img id="photo-1-img" src="https://placehold.co/300x300/e0f2f1/059669?text=Celebrity+A" alt="Celebrity 1" class="photo w-full object-cover">
+                <div class="vote-overlay text-xl font-bold flex items-center justify-center" data-photo-id="placeholder_a">
+                    Click to Vote!
+                </div>
+            </div>
+
+            <!-- VS Text -->
+            <div class="vs-text text-4xl font-extrabold text-gray-500 my-4 sm:my-0">
+                VS
+            </div>
+            
+            <!-- Photo Card 2 -->
+            <div class="photo-card relative w-full sm:w-5/12 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl 
+                        transition duration-300 ease-in-out transform hover:scale-[1.03]"
+                 id="photo-2-container">
+                <img id="photo-2-img" src="https://placehold.co/300x300/e0f2f1/059669?text=Celebrity+B" alt="Celebrity 2" class="photo w-full object-cover">
+                <div class="vote-overlay text-xl font-bold flex items-center justify-center" data-photo-id="placeholder_b">
+                    Click to Vote!
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Controls -->
+        <div class="game-controls flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-8 border-t border-gray-200 pt-6">
+            <p class="text-lg font-medium text-gray-700">Round: <span id="round-number" class="text-primary-green font-extrabold text-xl">1</span></p>
+            <button id="show-leaderboard-btn" 
+                    class="bg-accent-orange text-white font-bold py-3 px-8 rounded-full shadow-md shadow-accent-orange/50 
+                           hover:bg-red-600 transition transform active:scale-95 text-lg">
+                Show Leaderboard
+            </button>
+        </div>
+
+        <!-- Leaderboard (Hidden by default) -->
+        <div id="leaderboard-container" class="mt-8 p-6 bg-gray-50 rounded-xl border border-gray-200" style="display: none;">
+            <h2 class="text-2xl font-semibold mb-4 text-primary-green">Current Leaderboard</h2>
+            <ul id="leaderboard-list" class="space-y-3">
+                <!-- Leaderboard items will be populated here by script.js -->
+                <li class="flex items-center justify-between p-3 rounded-lg bg-gray-100 border-l-4 border-primary-green">
+                    <div class="flex items-center">
+                        <img src="https://placehold.co/50x50/f0fdf4/059669?text=1" class="leaderboard-image w-10 h-10 rounded-full object-cover mr-4 border-2 border-primary-green">
+                        <span class="font-medium text-gray-800">Mock Winner</span>
+                    </div>
+                    <span class="text-primary-green font-bold">5 Votes</span>
+                </li>
+            </ul>
+        </div>
+        
+    </div>
+
+    <!-- Footer - Attribution -->
+    <footer class="text-center mt-8 py-4">
+        <p class="text-gray-500 text-sm">
+            This application is created by 
+            <span class="text-primary-green font-bold text-base">MRA HASEN AL BANNA</span>
+        </p>
+    </footer>
+
+    <!-- Link to external script file -->
     <script src="script.js"></script>
 </body>
 </html>
