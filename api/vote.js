@@ -10,36 +10,29 @@ export default async (req, res) => {
         return res.status(400).json({ message: 'Missing photo data' });
     }
 
-    // Replace with your GitHub details
-    const GITHUB_TOKEN = process.env.GITHUB_TOKEN; // Get this from environment variables
-    const GITHUB_OWNER = 'YOUR_GITHUB_USERNAME';
-    const GITHUB_REPO = 'YOUR_REPO_NAME';
+    const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+    const GITHUB_OWNER = 'YOUR_GITHUB_USERNAME'; // Replace with your GitHub username
+    const GITHUB_REPO = 'YOUR_REPO_NAME'; // Replace with your new repo name
     const FILE_PATH = 'votes.json';
 
-    const octokit = new Octokit({
-        auth: GITHUB_TOKEN
-    });
+    const octokit = new Octokit({ auth: GITHUB_TOKEN });
 
     try {
-        // 1. Get the current votes.json file
         const { data } = await octokit.rest.repos.getContent({
             owner: GITHUB_OWNER,
             repo: GITHUB_REPO,
-            path: FILE_PATH,
-            headers: { 'Cache-Control': 'no-cache' }
+            path: FILE_PATH
         });
         
         const content = Buffer.from(data.content, 'base64').toString('utf-8');
         const votes = JSON.parse(content);
         
-        // 2. Update the vote count for the voted photo
         if (votes[photo] !== undefined) {
             votes[photo] = (votes[photo] || 0) + 1;
         } else {
-            return res.status(400).json({ message: 'Invalid photo ID' });
+            votes[photo] = 1; 
         }
         
-        // 3. Commit the updated file back to GitHub
         const updatedContent = JSON.stringify(votes, null, 2);
         await octokit.rest.repos.createOrUpdateFileContents({
             owner: GITHUB_OWNER,
