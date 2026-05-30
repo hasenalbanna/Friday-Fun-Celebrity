@@ -12,14 +12,14 @@ export default async (req, res) => {
     }
 
     // Configuration for GitHub access
-    const GITHUB_TOKEN = process.env.GITHUB_TOKEN; // Ensure this is set in Vercel environment variables
-    const GITHUB_OWNER = 'hasenalbanna'; 
-    const GITHUB_REPO = 'Friday-Fun-Celebrity'; 
+    const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
+    const GITHUB_OWNER = process.env.GITHUB_OWNER;
+    const GITHUB_REPO = process.env.GITHUB_REPO;
     const FILE_PATH = 'votes.json';
     const MAX_RETRIES = 3; // Maximum attempts to update the file in case of concurrent writes
 
-    if (!GITHUB_TOKEN) {
-        return res.status(500).json({ message: 'Server configuration error: GITHUB_TOKEN not set.' });
+    if (!GITHUB_TOKEN || !GITHUB_OWNER || !GITHUB_REPO) {
+        return res.status(500).json({ message: 'Server configuration error: GitHub credentials are not fully configured.' });
     }
 
     const octokit = new Octokit({ auth: GITHUB_TOKEN });
