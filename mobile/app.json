@@ -1,0 +1,15 @@
+{
+  "expo": {
+    "name": "Friday Fun Celebrity",
+    "slug": "friday-fun-celebrity-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "jsEngine": "hermes",
+    "platforms": ["android", "ios"],
+    "android": {
+      "package": "com.hasenalbanna.fridayfuncelebrity"
+    },
+    "plugins": ["expo-image-picker"]
+  }
+}
